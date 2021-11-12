@@ -18,19 +18,11 @@ public class AccountService {
     public Account createAccount(Account account) {
         if (account == null) throw new IllegalStateException("conta não pode ser nula");
 
-        Optional<Account> existingUsernameOptional = this.accountRepository.findAccountByUsername(account.getUsername());
-
-        if (existingUsernameOptional.isPresent()) {
-            throw new IllegalStateException("conta com username " + account.getUsername() + " já existe");
+        try {
+            return this.accountRepository.save(account);
+        } catch (Exception e) {
+            throw new IllegalStateException("conta inválida para criação");
         }
-
-        Optional<Account> existingEmailOptional = this.accountRepository.findAccountByEmail(account.getEmail());
-
-        if (existingEmailOptional.isPresent()) {
-            throw new IllegalStateException("conta com email " + account.getEmail() + " já existe");
-        }
-
-        return this.accountRepository.save(account);
     }
 
     public List<AccountIdAndUsername> searchByUsernameAlike(String usernameAlike) {
