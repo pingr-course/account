@@ -1,6 +1,15 @@
 version: '3.7'
 
 services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - pg
+      - pgadmin
+
   pg:
     image: postgres
     environment:
