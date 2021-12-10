@@ -6,22 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final ProducerService producerService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(
+            AccountRepository accountRepository,
+            ProducerService producerService
+    ) {
         this.accountRepository = accountRepository;
+        this.producerService = producerService;
     }
 
     public Account createAccount(Account account) {
         if (account == null) throw new InvalidAccountCreationException("conta não pode ser nula");
 
         try {
-            return this.accountRepository.save(account);
+            Account savedAccount = this.accountRepository.save(account);
+            this.producerService.sendMessage(savedAccount);
+            return savedAccount;
         } catch (Exception e) {
             throw new InvalidAccountCreationException("conta inválida para criação");
         }
