@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/v1/accounts")
@@ -30,5 +31,15 @@ public class AccountController {
     @GetMapping
     public List<AccountIdAndUsername> searcByUsernameAlike(@RequestParam("usernameAlike") String usernameAlike) {
         return this.accountService.searchByUsernameAlike(usernameAlike);
+    }
+
+    @PostMapping(path = "/{id}/courses")
+    public void addCourse(@PathVariable("id") Long id, @RequestBody String name) {
+        this.accountService.addCourses(name, id);
+    }
+
+    @GetMapping(path = "/{id}")
+    public Optional<Account> getOne(@PathVariable("id") Long id) {
+        return this.accountService.findOne(id);
     }
 }

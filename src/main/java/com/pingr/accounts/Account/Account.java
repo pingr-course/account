@@ -1,6 +1,8 @@
 package com.pingr.accounts.Account;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -36,6 +38,14 @@ public class Account {
             nullable = false
     )
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+            name = "account_course",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> theCourses = new HashSet<>();
 
     public Account(Long id, String username, String email, String password) {
         this.id = id;
@@ -83,6 +93,18 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Course> getTheCourses() {
+        return theCourses;
+    }
+
+    public void setTheCourses(Set<Course> theCourses) {
+        this.theCourses = theCourses;
+    }
+
+    public void addCourse(Course course) {
+        this.theCourses.add(course);
     }
 
     @Override
