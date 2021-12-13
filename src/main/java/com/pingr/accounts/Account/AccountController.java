@@ -34,8 +34,8 @@ public class AccountController {
     }
 
     @PostMapping(path = "/{id}/courses")
-    public void addCourse(@PathVariable("id") Long id, @RequestBody String name) {
-        this.accountService.addCourses(name, id);
+    public void addCourse(@PathVariable("id") Long id, @RequestBody Long courseId) {
+        this.accountService.addCourses(id, courseId);
     }
 
     @GetMapping(path = "/{id}")

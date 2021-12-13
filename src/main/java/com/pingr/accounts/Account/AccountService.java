@@ -39,19 +39,17 @@ public class AccountService {
         return this.accountRepository.findById(id);
     }
 
-    public void addCourses(String name, Long accountID) {
-        List<Course> courses = this.courseService.find(name);
+    public void addCourses(Long accountID, Long courseID) {
         Optional<Account> optionalAccount = this.accountRepository.findById(accountID);
+        Optional<Course> optionalCourse = this.courseService.find(courseID);
 
-        if (optionalAccount.isPresent()) {
+        if (optionalAccount.isPresent() && optionalCourse.isPresent()) {
             Account account = optionalAccount.get();
-            System.out.println(courses);
-            for (Course course: courses) {
-                account.addCourse(course);
-            }
+            Course course = optionalCourse.get();
+            account.addCourse(course);
             this.accountRepository.save(account);
         } else {
-            throw new RuntimeException("Conta " + accountID + " não encontrada");
+            throw new RuntimeException("Conta ou Curso não encontrados");
         }
 
     }

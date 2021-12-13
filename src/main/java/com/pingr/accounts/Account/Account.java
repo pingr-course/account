@@ -41,11 +41,11 @@ public class Account {
 
     @ManyToMany
     @JoinTable(
-            name = "account_course",
+            name = "course_like",
             joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private Set<Course> theCourses = new HashSet<>();
+    private Set<Course> likedCourses = new HashSet<>();
 
     public Account(Long id, String username, String email, String password) {
         this.id = id;
@@ -95,16 +95,16 @@ public class Account {
         this.password = password;
     }
 
-    public Set<Course> getTheCourses() {
-        return theCourses;
+    public Set<Course> getLikedCourses() {
+        return likedCourses;
     }
 
-    public void setTheCourses(Set<Course> theCourses) {
-        this.theCourses = theCourses;
+    public void setLikedCourses(Set<Course> theCourses) {
+        this.likedCourses = theCourses;
     }
 
     public void addCourse(Course course) {
-        this.theCourses.add(course);
+        this.likedCourses.add(course);
     }
 
     @Override
